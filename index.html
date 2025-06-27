@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Interactif Pennylane</title>
+    <!-- Chosen Palette: "Teal Harmony" - A calming and professional palette using shades of teal, slate gray, and a warm off-white, inspired by financial tech platforms. -->
+    <!-- Application Structure Plan: The application is designed as a task-oriented, single-page interactive guide. It uses a vertical stepper/navigation on the left to guide the user through a logical sequence of onboarding and management tasks: 1. First Steps, 2. Purchase Invoices, 3. Sales Invoices, 4. Other Documents, and 5. Collaboration. This expanded linear structure is optimal for new users as it separates distinct workflows (purchases, sales, admin), preventing confusion and building knowledge progressively. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info: Methods for submitting purchase invoices. -> Goal: Provide actionable instructions. -> Viz/Presentation: Interactive tabs for each method with step-by-step guides. -> Interaction: User clicks a tab to get specific "how-to" instructions. -> Justification: Removed the comparative chart to focus on direct, practical guidance, which is more useful for a new user trying to activate these features.
+    - Report Info: Sales process from quote to payment. -> Goal: Explain a workflow. -> Viz/Presentation: A multi-step visual process diagram built with HTML/Tailwind. -> Interaction: Static visual. -> Justification: A visual flowchart is more intuitive than text for a sequential process.
+    - Report Info: Distinction between different document types. -> Goal: Prevent user error. -> Viz/Presentation: Styled callout boxes with distinct colors/icons. -> Interaction: Static visual. -> Justification: Highlighting critical distinctions prevents common mistakes and reinforces correct usage.
+    Library/Method: Vanilla JS for navigation and dynamic content.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-link.active {
+            background-color: #ccfbf1; /* teal-100 */
+            color: #0d9488; /* teal-600 */
+            border-left-color: #0d9488; /* teal-600 */
+        }
+        .nav-link:not(.active):hover {
+            background-color: #f1f5f9; /* slate-100 */
+            border-left-color: #cbd5e1; /* slate-300 */
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .method-tab.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+        }
+        .method-content {
+            display: none;
+        }
+        .method-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="max-w-7xl mx-auto min-h-screen">
+        <header class="text-center p-8 border-b border-slate-200">
+            <h1 class="text-3xl md:text-4xl font-bold text-teal-700">Bienvenue sur Pennylane</h1>
+            <p class="mt-2 text-lg text-slate-600">Votre guide interactif pour une prise en main simple et rapide.</p>
+        </header>
+
+        <div class="flex flex-col md:flex-row">
+            <!-- Navigation -->
+            <aside class="w-full md:w-64 lg:w-72 p-4 md:p-6 flex-shrink-0">
+                <nav id="mainNav" class="sticky top-6">
+                    <a href="#premiers-pas" class="nav-link active flex items-center p-3 my-1 border-l-4 font-semibold text-slate-700">
+                        <span class="w-7 h-7 bg-teal-600 text-white rounded-full flex items-center justify-center mr-3">1</span> Premiers Pas
+                    </a>
+                    <a href="#factures-achat" class="nav-link flex items-center p-3 my-1 border-l-4 font-semibold text-slate-700">
+                        <span class="w-7 h-7 border-2 border-slate-400 rounded-full flex items-center justify-center mr-3">2</span> Factures d'Achat
+                    </a>
+                     <a href="#factures-vente" class="nav-link flex items-center p-3 my-1 border-l-4 font-semibold text-slate-700">
+                        <span class="w-7 h-7 border-2 border-slate-400 rounded-full flex items-center justify-center mr-3">3</span> Factures de Vente
+                    </a>
+                     <a href="#autres-documents" class="nav-link flex items-center p-3 my-1 border-l-4 font-semibold text-slate-700">
+                        <span class="w-7 h-7 border-2 border-slate-400 rounded-full flex items-center justify-center mr-3">4</span> Autres Documents
+                    </a>
+                    <a href="#collaboration" class="nav-link flex items-center p-3 my-1 border-l-4 font-semibold text-slate-700">
+                        <span class="w-7 h-7 border-2 border-slate-400 rounded-full flex items-center justify-center mr-3">5</span> Collaboration
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-grow p-4 md:p-6 lg:p-8">
+                <!-- Section 1: Premiers Pas -->
+                <section id="premiers-pas" class="content-section active">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6">De l'invitation à votre tableau de bord</h2>
+                    <div class="space-y-8">
+                        <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                            <h3 class="text-lg font-semibold text-teal-700">1. Acceptez votre invitation par e-mail</h3>
+                            <p class="mt-2">Votre parcours commence par un e-mail de notre part. Cherchez un message intitulé "Invitation à rejoindre Pennylane".</p>
+                            <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-600">
+                                <li>Ouvrez l'e-mail et cliquez sur le bouton <span class="font-semibold text-teal-600">"Accepter l'invitation"</span>.</li>
+                                <li>Vous serez redirigé vers Pennylane pour créer votre mot de passe.</li>
+                                <li>Une fois votre mot de passe défini, votre compte est actif !</li>
+                            </ol>
+                            <div class="mt-4 p-3 bg-amber-50 border-l-4 border-amber-400 text-amber-800 rounded-r-md">
+                                <p><span class="font-bold">Important :</span> Le lien d'invitation est valide pendant 7 jours.</p>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                            <h3 class="text-lg font-semibold text-teal-700">2. Votre première connexion</h3>
+                            <p class="mt-2">Pour vous connecter, rendez-vous sur <a href="#" class="text-teal-600 font-semibold underline">app.pennylane.com</a> et utilisez votre e-mail et le mot de passe que vous venez de créer.</p>
+                            <p class="mt-3">Nous vous recommandons vivement de télécharger l'application mobile (iOS & Android) pour une gestion simplifiée en déplacement.</p>
+                            <div class="mt-4 p-3 bg-sky-50 border-l-4 border-sky-400 text-sky-800 rounded-r-md">
+                                <p><span class="font-bold">Astuce :</span> Mot de passe oublié ? Utilisez le lien "Mot de passe oublié ?" sur la page de connexion pour le réinitialiser en toute sécurité.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Factures d'Achat -->
+                <section id="factures-achat" class="content-section">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Gérer vos factures d'achat sans effort</h2>
+                    <p class="text-slate-600 mb-6">Voici comment activer les différentes méthodes pour nous transmettre vos factures d'achat. L'objectif : zéro papier, zéro oubli !</p>
+                    
+                    <div id="invoice-methods" class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <div class="mb-6 border-b border-slate-200">
+                            <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
+                                <button data-target="method-email" class="method-tab active shrink-0 border border-b-0 rounded-t-lg px-4 py-2 text-sm font-medium transition-colors duration-200">Par E-mail</button>
+                                <button data-target="method-mobile" class="method-tab shrink-0 border border-b-0 rounded-t-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ml-1">Via Mobile</button>
+                                <button data-target="method-dragdrop" class="method-tab shrink-0 border border-b-0 rounded-t-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ml-1">Glisser-déposer</button>
+                                <button data-target="method-connectors" class="method-tab shrink-0 border border-b-0 rounded-t-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ml-1">Connecteurs</button>
+                            </nav>
+                        </div>
+                        
+                        <div id="method-email" class="method-content active">
+                            <h4 class="font-semibold text-lg text-slate-800">Comment activer l'e-mail de collecte</h4>
+                            <p class="mt-2">C'est la méthode la plus puissante pour automatiser la réception de vos factures numériques.</p>
+                             <ol class="list-decimal list-inside mt-4 space-y-3 text-slate-600">
+                                <li><span class="font-semibold">Trouvez votre adresse :</span> Connectez-vous à Pennylane, allez dans `Paramètres entreprise` (en bas à gauche) > `Transmission de factures`. Vous y trouverez votre adresse e-mail unique (ex: <span class="font-mono bg-slate-100 p-1 rounded">votre-societe@suppliers.pennylane.tech</span>).</li>
+                                <li><span class="font-semibold">Activez l'adresse :</span> Envoyez un premier e-mail (même vide) depuis votre messagerie professionnelle vers cette adresse de collecte. Cela autorise votre boîte mail à envoyer des factures.</li>
+                                <li><span class="font-semibold">Automatisez le transfert :</span> Dans votre messagerie (Gmail, Outlook...), créez une règle de transfert automatique. Par exemple : "Pour tout e-mail de `facturation@fournisseur.com`, transférer à `votre-societe@suppliers.pennylane.tech`". Faites-le pour vos fournisseurs récurrents.</li>
+                                <li><span class="font-semibold">Communiquez l'adresse :</span> Donnez cette adresse à vos fournisseurs pour qu'ils vous l'ajoutent en copie de leurs factures.</li>
+                            </ol>
+                        </div>
+
+                        <div id="method-mobile" class="method-content">
+                             <h4 class="font-semibold text-lg text-slate-800">Comment utiliser l'application mobile</h4>
+                            <p class="mt-2">L'outil indispensable pour toutes vos dépenses en déplacement : notes de restaurant, péages, ou factures papier.</p>
+                             <ol class="list-decimal list-inside mt-4 space-y-3 text-slate-600">
+                                <li><span class="font-semibold">Téléchargez l'application</span> "Pennylane" sur l'App Store ou Google Play Store et connectez-vous.</li>
+                                <li><span class="font-semibold">Appuyez sur le gros bouton "+"</span> au centre de la barre de navigation pour ajouter une dépense.</li>
+                                <li><span class="font-semibold">Prenez une photo</span> bien nette et lisible du justificatif. Assurez-vous que tout le document est visible.</li>
+                                <li>L'intelligence artificielle de Pennylane lit la facture pour vous. Vérifiez les informations pré-remplies (fournisseur, date, montants).</li>
+                                <li><span class="font-semibold">Validez.</span> C'est terminé ! Le justificatif est sauvegardé et prêt pour la comptabilité.</li>
+                            </ol>
+                        </div>
+
+                        <div id="method-dragdrop" class="method-content">
+                            <h4 class="font-semibold text-lg text-slate-800">Comment utiliser le glisser-déposer</h4>
+                            <p class="mt-2">Parfait pour ajouter rapidement des factures déjà enregistrées sur votre ordinateur.</p>
+                             <ol class="list-decimal list-inside mt-4 space-y-3 text-slate-600">
+                                <li>Connectez-vous à Pennylane depuis votre ordinateur.</li>
+                                <li>Allez dans le module <span class="font-semibold text-teal-600">`Achats`</span> dans le menu de gauche.</li>
+                                <li>Ouvrez le dossier de votre ordinateur où se trouvent les factures.</li>
+                                <li>Sélectionnez une ou plusieurs factures (PDF, JPG, PNG) et glissez-les directement sur la page du module `Achats`.</li>
+                                <li>Les factures sont importées et traitées automatiquement.</li>
+                            </ol>
+                        </div>
+
+                        <div id="method-connectors" class="method-content">
+                            <h4 class="font-semibold text-lg text-slate-800">Comment activer les connecteurs fournisseurs</h4>
+                            <p class="mt-2">La méthode "zéro effort" pour vos factures récurrentes (téléphone, électricité, abonnements...).</p>
+                             <ol class="list-decimal list-inside mt-4 space-y-3 text-slate-600">
+                                 <li>Allez dans `Paramètres` > `Paramètres Entreprise` > `Transmission de factures`.</li>
+                                <li>Cliquez sur l'onglet <span class="font-semibold text-teal-600">`Collecteurs`</span>.</li>
+                                <li>Recherchez votre fournisseur dans la liste (ex: EDF, OVH, Free...).</li>
+                                <li>Cliquez sur "Connecter" et renseignez les identifiants de votre espace client chez ce fournisseur.</li>
+                                <li>Pennylane ira désormais chercher les nouvelles factures automatiquement, sans que vous n'ayez plus rien à faire.</li>
+                             </ol>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section 3: Factures de Vente -->
+                <section id="factures-vente" class="content-section">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Centralisez et suivez votre facturation client</h2>
+                    <p class="text-slate-600 mb-6">Que vous facturiez depuis Pennylane ou un autre outil, l'important est de tout centraliser pour un suivi précis de votre chiffre d'affaires.</p>
+                    
+                     <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-8">
+                        <h3 class="text-lg font-semibold text-teal-700 mb-4">Option 1 : Créer vos factures sur Pennylane</h3>
+                        <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4 text-center">
+                            <div class="flex-1">
+                                <div class="w-16 h-16 mx-auto bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-2xl font-bold">1</div>
+                                <h4 class="mt-2 font-semibold">Créez un devis</h4>
+                                <p class="text-sm text-slate-500">Proposez des devis clairs et professionnels à vos prospects.</p>
+                            </div>
+                            <div class="text-teal-400 font-bold text-2xl hidden md:block">&rarr;</div>
+                            <div class="flex-1">
+                                <div class="w-16 h-16 mx-auto bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-2xl font-bold">2</div>
+                                <h4 class="mt-2 font-semibold">Transformez en facture</h4>
+                                <p class="text-sm text-slate-500">En un clic, convertissez un devis accepté en facture.</p>
+                            </div>
+                             <div class="text-teal-400 font-bold text-2xl hidden md:block">&rarr;</div>
+                             <div class="flex-1">
+                                <div class="w-16 h-16 mx-auto bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-2xl font-bold">3</div>
+                                <h4 class="mt-2 font-semibold">Faites-vous payer</h4>
+                                <p class="text-sm text-slate-500">Intégrez un lien de paiement et suivez le statut en temps réel.</p>
+                            </div>
+                        </div>
+                         <p class="text-sm text-center mt-4 text-slate-500">Cette méthode vous offre le suivi le plus complet : statut de la facture (vue, payée), relances automatiques, etc.</p>
+                    </div>
+
+                    <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-semibold text-teal-700">Option 2 : Vous utilisez un logiciel de facturation tiers ?</h3>
+                        <p class="mt-2">Aucun problème ! L'essentiel est de nous transmettre vos factures de vente pour que nous ayons une vision complète et en temps réel de votre chiffre d'affaires.</p>
+                         <div class="mt-4 p-4 bg-sky-50 border-l-4 border-sky-400 text-sky-800 rounded-r-md">
+                            <h4 class="font-bold flex items-center">
+                                Comment faire ? C'est très simple !
+                            </h4>
+                            <p class="mt-2">
+                                <span class="font-semibold">Par e-mail :</span> Configurez votre logiciel pour envoyer une copie de chaque facture à : <br><span class="font-mono bg-slate-100 p-1 rounded">votre-societe@customers.pennylane.tech</span>
+                            </p>
+                             <p class="mt-2">
+                                <span class="font-semibold">Par glisser-déposer :</span> Alternativement, comme pour les factures d'achats, vous pouvez glisser-déposer vos fichiers de factures de vente directement dans l'onglet <span class="font-semibold text-teal-600">Factures clients</span> sur la page d'acceuil.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Autres Documents -->
+                <section id="autres-documents" class="content-section">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Centralisez vos documents importants</h2>
+                    <p class="text-slate-600 mb-6">Pennylane offre un espace de stockage sécurisé (GED) pour tous les documents administratifs et légaux de votre entreprise.</p>
+                     <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-semibold text-teal-700">Quels documents déposer ici ?</h3>
+                        <p class="mt-2">Cet espace est destiné à tous les documents qui ne sont PAS des factures d'achat ou de vente. C'est la bibliothèque de votre entreprise.</p>
+                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-center">
+                            <div class="bg-slate-100 p-4 rounded-lg">Légal (Kbis, statuts)</div>
+                            <div class="bg-slate-100 p-4 rounded-lg">Social (Contrats de travail)</div>
+                            <div class="bg-slate-100 p-4 rounded-lg">Assurances</div>
+                            <div class="bg-slate-100 p-4 rounded-lg">Contrats clients/fournisseurs</div>
+                            <div class="bg-slate-100 p-4 rounded-lg">Prêts bancaires</div>
+                             <div class="bg-slate-100 p-4 rounded-lg">Et bien plus...</div>
+                        </div>
+                         <div class="mt-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-900 rounded-r-md">
+                            <h4 class="font-bold flex items-center">
+                                <span class="text-xl mr-2">!</span> Distinction cruciale
+                            </h4>
+                            <p class="mt-1">Ne déposez **JAMAIS** une facture (achat ou vente) dans cet espace. Les factures doivent **impérativement** passer par les méthodes de collecte (e-mail, mobile...) pour être traitées correctement par le cabinet.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Collaboration -->
+                <section id="collaboration" class="content-section">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-6">Une collaboration fluide avec votre comptable</h2>
+                    <div class="space-y-8">
+                        <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                            <h3 class="text-lg font-semibold text-teal-700">Comprendre les "Actions à faire"</h3>
+                            <p class="mt-2">Sur votre tableau de bord, le bloc "Actions à faire" est votre centre de communication. C'est ici que nous vous demandons des informations.</p>
+                            <div class="mt-4 grid md:grid-cols-2 gap-4">
+                                <div class="border rounded-lg p-4">
+                                    <h4 class="font-bold">Demandes Comptables</h4>
+                                    <p class="text-sm mt-1">Concerne un justificatif manquant pour une transaction bancaire précise (ex: la facture d'un paiement par carte).</p>
+                                </div>
+                                 <div class="border rounded-lg p-4">
+                                    <h4 class="font-bold">Demandes de Documents</h4>
+                                    <p class="text-sm mt-1">Concerne des documents administratifs généraux (Kbis, contrat d'assurance...) à déposer dans l'espace "Autres Documents".</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                            <h3 class="text-lg font-semibold text-teal-700">Comment répondre à une demande de justificatif ?</h3>
+                            <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-600">
+                                <li>Cliquez sur l'alerte "Demandes comptables".</li>
+                                <li>La liste des transactions sans justificatif apparaît.</li>
+                                <li>Cliquez sur la transaction concernée.</li>
+                                <li>Dans le volet qui s'ouvre, glissez-déposez le fichier de la facture.</li>
+                                <li>La demande disparaît. C'est traité !</li>
+                            </ol>
+                        </div>
+
+                        <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
+                             <h3 class="text-lg font-semibold text-teal-700">Communiquer avec contexte : l'art du commentaire</h3>
+                            <p class="mt-2">Vous avez une question sur une facture ? Laissez un commentaire directement dessus.</p>
+                             <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-900 rounded-r-md">
+                                <h4 class="font-bold flex items-center">
+                                    <span class="text-xl mr-2">!</span> La Règle d'Or de la Communication
+                                </h4>
+                                <p class="mt-2">Pour être certain que nous voyions votre message, vous devez **impérativement nous mentionner**. Tapez <span class="font-mono bg-red-100 p-1 rounded">@</span> suivi du nom de votre interlocuteur au cabinet.</p>
+                                <p class="mt-2">Un simple commentaire <span class="font-bold">sans mention @</span> ne nous envoie aucune notification. Pensez-y !</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Main Navigation
+            const navLinks = document.querySelectorAll('#mainNav .nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const navCounters = document.querySelectorAll('#mainNav .nav-link span');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    navCounters.forEach(span => {
+                         span.classList.remove('bg-teal-600', 'text-white');
+                         span.classList.add('border-2', 'border-slate-400');
+                    });
+                     link.querySelector('span').classList.add('bg-teal-600', 'text-white');
+                     link.querySelector('span').classList.remove('border-2', 'border-slate-400');
+
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+
+            // Invoice Methods Tabs
+            const methodTabs = document.querySelectorAll('#invoice-methods .method-tab');
+            const methodContents = document.querySelectorAll('#invoice-methods .method-content');
+
+            methodTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.dataset.target;
+
+                    methodTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    methodContents.forEach(content => {
+                        if (content.id === targetId) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Remove Chart.js if canvas is not present
+            const methodsChartCtx = document.getElementById('methodsChart');
+            if(methodsChartCtx) {
+                 methodsChartCtx.parentElement.remove();
+            }
+        });
+    </script>
+</body>
+</html>
