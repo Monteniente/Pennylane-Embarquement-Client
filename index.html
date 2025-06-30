@@ -7,9 +7,8 @@
     <!-- Chosen Palette: "Teal Harmony" - A calming and professional palette using shades of teal, slate gray, and a warm off-white, inspired by financial tech platforms. -->
     <!-- Application Structure Plan: The application is designed as a task-oriented, single-page interactive guide. It uses a vertical stepper/navigation on the left to guide the user through a logical sequence of onboarding and management tasks: 1. First Steps, 2. Purchase Invoices, 3. Sales Invoices, 4. Other Documents, and 5. Collaboration. This expanded linear structure is optimal for new users as it separates distinct workflows (purchases, sales, admin), preventing confusion and building knowledge progressively. -->
     <!-- Visualization & Content Choices: 
-    - Report Info: Methods for submitting purchase invoices. -> Goal: Provide actionable instructions. -> Viz/Presentation: Interactive tabs for each method with step-by-step guides. -> Interaction: User clicks a tab to get specific "how-to" instructions. -> Justification: Removed the comparative chart to focus on direct, practical guidance, which is more useful for a new user trying to activate these features.
-    - Report Info: Sales process from quote to payment. -> Goal: Explain a workflow. -> Viz/Presentation: A multi-step visual process diagram built with HTML/Tailwind. -> Interaction: Static visual. -> Justification: A visual flowchart is more intuitive than text for a sequential process.
-    - Report Info: Distinction between different document types. -> Goal: Prevent user error. -> Viz/Presentation: Styled callout boxes with distinct colors/icons. -> Interaction: Static visual. -> Justification: Highlighting critical distinctions prevents common mistakes and reinforces correct usage.
+    - Report Info: Methods for submitting purchase invoices. -> Goal: Provide actionable instructions. -> Viz/Presentation: Interactive tabs for each method with step-by-step guides, now enhanced with screenshots. -> Interaction: User clicks a tab to get specific "how-to" instructions. -> Justification: Screenshots provide essential visual context, making the text instructions much easier to follow.
+    - Report Info: Collaboration workflow. -> Goal: Explain a workflow visually. -> Viz/Presentation: A step-by-step visual guide using multiple annotated screenshots to illustrate the entire process from dashboard notification to final document upload. -> Interaction: Static visuals. -> Justification: A visual sequence is far more effective than text alone for explaining a multi-step UI-based task.
     Library/Method: Vanilla JS for navigation and dynamic content.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -105,8 +104,11 @@
                             </div>
                         </div>
                         <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
-                            <h3 class="text-lg font-semibold text-teal-700">2. Votre première connexion</h3>
-                            <p class="mt-2">Pour vous connecter, rendez-vous sur <a href="#" class="text-teal-600 font-semibold underline">app.pennylane.com</a> et utilisez votre e-mail et le mot de passe que vous venez de créer.</p>
+                            <h3 class="text-lg font-semibold text-teal-700">2. Votre première connexion et tableau de bord</h3>
+                            <p class="mt-2">Pour vous connecter, rendez-vous sur <a href="#" class="text-teal-600 font-semibold underline">app.pennylane.com</a>. Une fois connecté, vous arrivez sur votre tableau de bord principal.</p>
+                             <div class="my-4">
+                                <img src="images/image_1c1c82.png" alt="Tableau de bord principal de Pennylane" class="w-full mx-auto rounded-lg border border-slate-200 shadow-md">
+                            </div>
                             <p class="mt-3">Nous vous recommandons vivement de télécharger l'application mobile (iOS & Android) pour une gestion simplifiée en déplacement.</p>
                             <div class="mt-4 p-3 bg-sky-50 border-l-4 border-sky-400 text-sky-800 rounded-r-md">
                                 <p><span class="font-bold">Astuce :</span> Mot de passe oublié ? Utilisez le lien "Mot de passe oublié ?" sur la page de connexion pour le réinitialiser en toute sécurité.</p>
@@ -132,9 +134,16 @@
                         
                         <div id="method-email" class="method-content active">
                             <h4 class="font-semibold text-lg text-slate-800">Comment activer l'e-mail de collecte</h4>
-                            <p class="mt-2">C'est la méthode la plus puissante pour automatiser la réception de vos factures numériques.</p>
-                             <ol class="list-decimal list-inside mt-4 space-y-3 text-slate-600">
-                                <li><span class="font-semibold">Trouvez votre adresse :</span> Connectez-vous à Pennylane, allez dans `Paramètres entreprise` (en bas à gauche) > `Transmission de factures`. Vous y trouverez votre adresse e-mail unique (ex: <span class="font-mono bg-slate-100 p-1 rounded">votre-societe@suppliers.pennylane.tech</span>).</li>
+                             <p class="mt-2">C'est la méthode la plus puissante pour automatiser la réception de vos factures numériques.</p>
+                             <ol class="list-decimal list-inside mt-4 space-y-4 text-slate-600">
+                                <li>
+                                    <span class="font-semibold">Trouvez les paramètres :</span> Connectez-vous à Pennylane, cliquez sur l'icône `Paramètres` (roue crantée en bas à gauche), puis sur `Transmission de factures`, comme indiqué ci-dessous.
+                                    <img src="images/image_1c1d77.png" alt="Accéder à la transmission de factures" class="w-full max-w-sm my-2 rounded-lg border border-slate-200 shadow-sm">
+                                </li>
+                                <li>
+                                    <span class="font-semibold">Localisez votre adresse e-mail :</span> Sur la page `Transmission de factures`, trouvez le bloc "ADRESSES E-MAIL" et cliquez sur "Activer" pour révéler votre adresse e-mail unique (ex: <span class="font-mono bg-slate-100 p-1 rounded">societe@suppliers.pennylane.tech</span>).
+                                    <img src="images/image_1c1cf7.png" alt="Activer les adresses e-mail de collecte" class="w-full max-w-2xl my-2 rounded-lg border border-slate-200 shadow-sm">
+                                </li>
                                 <li><span class="font-semibold">Activez l'adresse :</span> Envoyez un premier e-mail (même vide) depuis votre messagerie professionnelle vers cette adresse de collecte. Cela autorise votre boîte mail à envoyer des factures.</li>
                                 <li><span class="font-semibold">Automatisez le transfert :</span> Dans votre messagerie (Gmail, Outlook...), créez une règle de transfert automatique. Par exemple : "Pour tout e-mail de `facturation@fournisseur.com`, transférer à `votre-societe@suppliers.pennylane.tech`". Faites-le pour vos fournisseurs récurrents.</li>
                                 <li><span class="font-semibold">Communiquez l'adresse :</span> Donnez cette adresse à vos fournisseurs pour qu'ils vous l'ajoutent en copie de leurs factures.</li>
@@ -158,7 +167,7 @@
                             <p class="mt-2">Parfait pour ajouter rapidement des factures déjà enregistrées sur votre ordinateur.</p>
                              <ol class="list-decimal list-inside mt-4 space-y-3 text-slate-600">
                                 <li>Connectez-vous à Pennylane depuis votre ordinateur.</li>
-                                <li>Allez dans le module <span class="font-semibold text-teal-600">`Achats`</span> dans le menu de gauche.</li>
+                                <li>Allez dans le module <span class="font-semibold text-teal-600">`Achats`</span> dans le menu de gauche (ou cliquez sur "+ Ajouter" sous "Factures fournisseurs" sur le tableau de bord).</li>
                                 <li>Ouvrez le dossier de votre ordinateur où se trouvent les factures.</li>
                                 <li>Sélectionnez une ou plusieurs factures (PDF, JPG, PNG) et glissez-les directement sur la page du module `Achats`.</li>
                                 <li>Les factures sont importées et traitées automatiquement.</li>
@@ -169,8 +178,8 @@
                             <h4 class="font-semibold text-lg text-slate-800">Comment activer les connecteurs fournisseurs</h4>
                             <p class="mt-2">La méthode "zéro effort" pour vos factures récurrentes (téléphone, électricité, abonnements...).</p>
                              <ol class="list-decimal list-inside mt-4 space-y-3 text-slate-600">
-                                 <li>Allez dans `Paramètres` > `Paramètres Entreprise` > `Transmission de factures`.</li>
-                                <li>Cliquez sur l'onglet <span class="font-semibold text-teal-600">`Collecteurs`</span>.</li>
+                                 <li>Rendez-vous dans `Paramètres` > `Transmission de factures` (voir étape 1 de l'e-mail).</li>
+                                <li>Cliquez sur le bloc <span class="font-semibold text-teal-600">`CONNECTEURS`</span>.</li>
                                 <li>Recherchez votre fournisseur dans la liste (ex: EDF, OVH, Free...).</li>
                                 <li>Cliquez sur "Connecter" et renseignez les identifiants de votre espace client chez ce fournisseur.</li>
                                 <li>Pennylane ira désormais chercher les nouvelles factures automatiquement, sans que vous n'ayez plus rien à faire.</li>
@@ -219,7 +228,7 @@
                                 <span class="font-semibold">Par e-mail :</span> Configurez votre logiciel pour envoyer une copie de chaque facture à : <br><span class="font-mono bg-slate-100 p-1 rounded">votre-societe@customers.pennylane.tech</span>
                             </p>
                              <p class="mt-2">
-                                <span class="font-semibold">Par glisser-déposer :</span> Alternativement, comme pour les factures d'achats, vous pouvez glisser-déposer vos fichiers de factures de vente directement dans l'onglet <span class="font-semibold text-teal-600">Factures clients</span> sur la page d'acceuil.
+                                <span class="font-semibold">Par glisser-déposer :</span> Alternativement, comme pour les factures d'achats, vous pouvez glisser-déposer vos fichiers de factures de vente directement dans l'onglet <span class="font-semibold text-teal-600">Factures clients</span> sur la page d'accueil.
                             </p>
                         </div>
                     </div>
@@ -254,34 +263,27 @@
                     <h2 class="text-2xl font-bold text-slate-800 mb-6">Une collaboration fluide avec votre comptable</h2>
                     <div class="space-y-8">
                         <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
-                            <h3 class="text-lg font-semibold text-teal-700">Comprendre les "Actions à faire"</h3>
-                            <p class="mt-2">Sur votre tableau de bord, le bloc "Actions à faire" est votre centre de communication. C'est ici que nous vous demandons des informations.</p>
-                            <div class="mt-4 grid md:grid-cols-2 gap-4">
-                                <div class="border rounded-lg p-4">
-                                    <h4 class="font-bold">Demandes Comptables</h4>
-                                    <p class="text-sm mt-1">Concerne un justificatif manquant pour une transaction bancaire précise (ex: la facture d'un paiement par carte).</p>
-                                </div>
-                                 <div class="border rounded-lg p-4">
-                                    <h4 class="font-bold">Demandes de Documents</h4>
-                                    <p class="text-sm mt-1">Concerne des documents administratifs généraux (Kbis, contrat d'assurance...) à déposer dans l'espace "Autres Documents".</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
-                            <h3 class="text-lg font-semibold text-teal-700">Comment répondre à une demande de justificatif ?</h3>
-                            <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-600">
-                                <li>Cliquez sur l'alerte "Demandes comptables".</li>
-                                <li>La liste des transactions sans justificatif apparaît.</li>
-                                <li>Cliquez sur la transaction concernée.</li>
-                                <li>Dans le volet qui s'ouvre, glissez-déposez le fichier de la facture.</li>
-                                <li>La demande disparaît. C'est traité !</li>
+                             <h3 class="text-lg font-semibold text-teal-700">Comprendre les "Actions à faire" et répondre à une demande de justificatif</h3>
+                             <p class="mt-2">Sur votre tableau de bord, le bloc "Actions à faire" est votre centre de communication. C'est ici que nous vous demandons des informations. Voici le processus visuel pour fournir un justificatif manquant :</p>
+                             <ol class="list-decimal list-inside mt-4 space-y-6 text-slate-600">
+                                <li>
+                                    <span class="font-semibold">Repérez la demande sur votre tableau de bord</span> et cliquez sur "Voir toutes les transactions".
+                                    <img src="images/image_1c14f8.png" alt="Repérer les transactions à justifier" class="w-full max-w-xl my-2 rounded-lg border border-slate-200 shadow-sm">
+                                </li>
+                                <li>
+                                    <span class="font-semibold">Identifiez la transaction :</span> Vous arrivez sur la liste des transactions. Celles en attente sont marquées "Demande comptable". Cliquez sur la ligne concernée.
+                                    <img src="images/image_1c11b3.png" alt="Liste des transactions en demande comptable" class="w-full max-w-2xl my-2 rounded-lg border border-slate-200 shadow-sm">
+                                </li>
+                                <li>
+                                    <span class="font-semibold">Ajoutez le justificatif :</span> Dans le volet qui s'ouvre, glissez-déposez la facture dans la zone "Justificatif". La demande disparaît, c'est traité !
+                                    <img src="images/image_1c1137.png" alt="Ajouter un justificatif à une transaction" class="w-full max-w-md my-2 rounded-lg border border-slate-200 shadow-sm">
+                                </li>
                             </ol>
                         </div>
 
                         <div class="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
                              <h3 class="text-lg font-semibold text-teal-700">Communiquer avec contexte : l'art du commentaire</h3>
-                            <p class="mt-2">Vous avez une question sur une facture ? Laissez un commentaire directement dessus.</p>
+                            <p class="mt-2">Vous avez une question sur une facture ? Laissez un commentaire directement dessus en utilisant la zone de texte montrée dans l'image ci-dessus.</p>
                              <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-900 rounded-r-md">
                                 <h4 class="font-bold flex items-center">
                                     <span class="text-xl mr-2">!</span> La Règle d'Or de la Communication
